@@ -7,13 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameBinding
+import com.example.composition.domain.entity.GameResult
+import com.example.composition.domain.entity.GameSettings
+import com.example.composition.domain.entity.Level
 import java.lang.RuntimeException
 
 class GameFragment : Fragment() {
 
+    private lateinit var level: Level
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseArgs()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +33,48 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.tvOption1.setOnClickListener {
+            launchGameFinishedFragment(GameResult(
+                true,
+                2,
+                7,
+                GameSettings(1,
+                    3,
+                    3,
+                    3)
+            ))
+        }
+    }
+
+    private fun launchGameFinishedFragment(result: GameResult) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, GameFinishedFragment.newInstance(result))
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun parseArgs() {
+        level = requireArguments().getSerializable(KEY_LEVEL) as Level
+    }
+
+    companion object {
+
+        private const val KEY_LEVEL = "level"
+        const val NAME = "GameFragment"
+
+        fun newInstance(level: Level): GameFragment {
+            return GameFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(KEY_LEVEL, level)
+                }
+            }
+        }
     }
 }
