@@ -29,12 +29,12 @@
         android:layout_margin="16dp"
         android:text="@string/required_score"
         android:textSize="18sp"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toTopOf="@id/tv_score_answers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/tv_score_answers"
@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:text="@string/score_answers"
         android:textSize="18sp"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toTopOf="@id/tv_required_percentage"
         app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
         app:layout_constraintStart_toStartOf="@id/tv_required_answers"
@@ -55,6 +56,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/required_percentage"
         android:textSize="18sp"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toTopOf="@id/tv_score_percentage"
         app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
         app:layout_constraintStart_toStartOf="@id/tv_required_answers"
@@ -69,6 +71,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/score_percentage"
         android:textSize="18sp"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
         app:layout_constraintStart_toStartOf="@id/tv_required_answers"
@@ -80,6 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/retry"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
