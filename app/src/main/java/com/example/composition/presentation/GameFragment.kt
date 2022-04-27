@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
+import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameBinding
 import com.example.composition.domain.entity.GameResult
@@ -21,12 +22,14 @@ import java.lang.RuntimeException
 class GameFragment : Fragment() {
 
     private val viewModelFactory by lazy {
-        GameViewModelFactory(requireActivity().application, level)
+        val args = GameFragmentArgs.fromBundle(requireArguments())
+        GameViewModelFactory(requireActivity().application, args.level)
     }
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
     }
-    private lateinit var level: Level
+
+    //    private lateinit var level: Level
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
@@ -84,7 +87,7 @@ class GameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parseArgs()
+//        parseArgs()
     }
 
     override fun onCreateView(
@@ -112,10 +115,16 @@ class GameFragment : Fragment() {
 
 
     private fun launchGameFinishedFragment(result: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFinishedFragment.newInstance(result))
-            .addToBackStack(null)
-            .commit()
+//        val args = Bundle().apply {
+//            putParcelable(GameFinishedFragment.KEY_RESULT, result)
+//        }
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragment2ToGameFinishedFragment2(result))
+
+//        requireActivity().supportFragmentManager.beginTransaction()
+//            .replace(R.id.main_container, GameFinishedFragment.newInstance(result))
+//            .addToBackStack(null)
+//            .commit()
     }
 
     override fun onDestroyView() {
@@ -123,15 +132,15 @@ class GameFragment : Fragment() {
         _binding = null
     }
 
-    private fun parseArgs() {
-        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
-            level = it
-        }
-    }
+//    private fun parseArgs() {
+//        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
+//            level = it
+//        }
+//    }
 
     companion object {
 
-        private const val KEY_LEVEL = "level"
+        const val KEY_LEVEL = "level"
         const val NAME = "GameFragment"
 
         fun newInstance(level: Level): GameFragment {
