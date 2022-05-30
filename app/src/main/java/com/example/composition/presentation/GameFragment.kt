@@ -34,7 +34,7 @@ class GameFragment : Fragment() {
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
     private val tvOptions by lazy {
-        mutableListOf<TextView>().apply {
+        mutableListOf<TextView>().apply    {
             add(binding.tvOption1)
             add(binding.tvOption2)
             add(binding.tvOption3)
@@ -45,7 +45,7 @@ class GameFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.question.observe(viewLifecycleOwner) {
+        viewModel.question.observe(viewLifecycleOwner)  {
             binding.tvSum.text = it.sum.toString()
             binding.tvLeftNumber.text = it.visibleNumber.toString()
             for (i in 0 until tvOptions.size) {
