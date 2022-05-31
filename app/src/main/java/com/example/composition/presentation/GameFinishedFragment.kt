@@ -40,7 +40,7 @@ class GameFinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners()
-        //Привязываем вьюхи через DataBinder
+        //Инициализируем переменную gameResult, объявленную в xml
         binding.gameResult = args.gameResult
     }
 
