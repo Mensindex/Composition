@@ -4,21 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.composition.R
-import com.example.composition.databinding.FragmentGameBinding
 import com.example.composition.databinding.FragmentGameFinishedBinding
 import com.example.composition.domain.entity.GameResult
-import com.example.composition.domain.entity.Level
 import java.lang.RuntimeException
 
 class GameFinishedFragment : Fragment() {
 
-//    private lateinit var result :GameResult
+    //    private lateinit var result :GameResult
     private val args by navArgs<GameFinishedFragmentArgs>()
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding: FragmentGameFinishedBinding
@@ -44,7 +40,8 @@ class GameFinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners()
-        settingArgsToView()
+        //Инициализируем переменную gameResult, объявленную в xml
+        binding.gameResult = args.gameResult
     }
 
     private fun setupClickListeners() {
@@ -59,53 +56,10 @@ class GameFinishedFragment : Fragment() {
         }
     }
 
-    private fun settingArgsToView() {
-        if (args.gameResult.winner) {
-            binding.emojiResult.setImageResource(R.drawable.ic_smile)
-        } else {
-            binding.emojiResult.setImageResource(R.drawable.ic_sad)
-        }
-
-        with(binding) {
-            tvRequiredAnswers.text = String.format(
-                getString(R.string.required_score),
-                args.gameResult.gameSettings.minCountOfRightAnswers.toString()
-            )
-
-            tvScoreAnswers.text = String.format(
-                getString(R.string.score_answers),
-                args.gameResult.countOfRightAnswers.toString())
-
-            tvRequiredPercentage.text = String.format(
-                getString(R.string.required_percentage),
-                args.gameResult.gameSettings.minPercentOfRightAnswers.toString()
-            )
-            tvScorePercentage.text = String.format(
-                getString(R.string.score_percentage),
-                calculatePercentOfRightAnswers().toString()
-            )
-        }
-    }
-
-    private fun calculatePercentOfRightAnswers() = with(args.gameResult) {
-        if (countOfQuestions == 0) {
-            0
-        } else {
-            (countOfRightAnswers / countOfQuestions.toDouble() * 100).toInt()
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-//    private fun parseArgs() {
-//
-//        requireArguments().getParcelable<GameResult>(KEY_RESULT)?.let {
-//            result = it
-//        }
-//    }
 
     private fun retryGame() {
         findNavController().popBackStack()
